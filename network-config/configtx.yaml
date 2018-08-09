@@ -1,23 +1,4 @@
 ---
-Profiles:
-
-    TwoOrgsOrdererGenesis:
-        Orderer:
-            <<: *OrdererDefaults
-            Organizations:
-                - *OrdererOrg
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *Org1
-                    - *Org2
-    TwoOrgsChannel:
-        Consortium: SampleConsortium
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - *Org1
-                - *Org2
 Organizations:
 
     - &OrdererOrg
@@ -40,7 +21,7 @@ Organizations:
         AnchorPeers:
             - Host: peer0.org2.example.com
               Port: 7051
-
+              
 Orderer: &OrdererDefaults
 
     OrdererType: kafka
@@ -62,3 +43,23 @@ Orderer: &OrdererDefaults
     Organizations:
 Application: &ApplicationDefaults
     Organizations:
+
+Profiles:
+
+    TwoOrgsOrdererGenesis:
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Org1
+                    - *Org2
+    TwoOrgsChannel:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
+                - *Org2

@@ -6,125 +6,6 @@ networks:
 
 services:
 
-    zookeeper0:
-        extends:
-            file: docker-compose-base.yml
-            service: zookeeper
-        container_name: zookeeper0
-        environment:
-            - ZOO_MY_ID=1
-            - ZOO_SERVERS=server.1=zookeeper0:2888:3888 server.2=zookeeper1:2888:3888 server.3=zookeeper2:2888:3888
-        networks:
-          behave:
-             aliases:
-               - ${CORE_PEER_NETWORKID}
-
-    zookeeper1:
-        extends:
-            file: docker-compose-base.yml
-            service: zookeeper
-        container_name: zookeeper1
-        environment:
-            - ZOO_MY_ID=2
-            - ZOO_SERVERS=server.1=zookeeper0:2888:3888 server.2=zookeeper1:2888:3888 server.3=zookeeper2:2888:3888
-        networks:
-          behave:
-             aliases:
-               - ${CORE_PEER_NETWORKID}
-
-    zookeeper2:
-        extends:
-            file: docker-compose-base.yml
-            service: zookeeper
-        container_name: zookeeper2
-        environment:
-            - ZOO_MY_ID=3
-            - ZOO_SERVERS=server.1=zookeeper0:2888:3888 server.2=zookeeper1:2888:3888 server.3=zookeeper2:2888:3888
-        networks:
-          behave:
-             aliases:
-               - ${CORE_PEER_NETWORKID}
-
-    kafka0:
-        extends:
-            file: docker-compose-base.yml
-            service: kafka
-        container_name: kafka0
-        environment:
-            - KAFKA_BROKER_ID=0
-            - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
-            - KAFKA_MESSAGE_MAX_BYTES=${KAFKA_MESSAGE_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_MAX_BYTES=${KAFKA_REPLICA_FETCH_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES=${KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES}
-        depends_on:
-            - zookeeper0
-            - zookeeper1
-            - zookeeper2
-        networks:
-          behave:
-             aliases:
-               - ${CORE_PEER_NETWORKID}
-
-    kafka1:
-        extends:
-            file: docker-compose-base.yml
-            service: kafka
-        container_name: kafka1
-        environment:
-            - KAFKA_BROKER_ID=1
-            - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
-            - KAFKA_MESSAGE_MAX_BYTES=${KAFKA_MESSAGE_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_MAX_BYTES=${KAFKA_REPLICA_FETCH_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES=${KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES}
-        depends_on:
-            - zookeeper0
-            - zookeeper1
-            - zookeeper2
-        networks:
-          behave:
-             aliases:
-               - ${CORE_PEER_NETWORKID}
-
-    kafka2:
-        extends:
-            file: docker-compose-base.yml
-            service: kafka
-        container_name: kafka2
-        environment:
-            - KAFKA_BROKER_ID=2
-            - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
-            - KAFKA_MESSAGE_MAX_BYTES=${KAFKA_MESSAGE_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_MAX_BYTES=${KAFKA_REPLICA_FETCH_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES=${KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES}
-        depends_on:
-            - zookeeper0
-            - zookeeper1
-            - zookeeper2
-        networks:
-          behave:
-             aliases:
-               - ${CORE_PEER_NETWORKID}
-
-    kafka3:
-        extends:
-            file: docker-compose-base.yml
-            service: kafka
-        container_name: kafka3
-        environment:
-            - KAFKA_BROKER_ID=3
-            - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
-            - KAFKA_MESSAGE_MAX_BYTES=${KAFKA_MESSAGE_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_MAX_BYTES=${KAFKA_REPLICA_FETCH_MAX_BYTES}
-            - KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES=${KAFKA_REPLICA_FETCH_RESPONSE_MAX_BYTES}
-        depends_on:
-            - zookeeper0
-            - zookeeper1
-            - zookeeper2
-        networks:
-          behave:
-             aliases:
-               - ${CORE_PEER_NETWORKID}
-
     orderer0.example.com:
         extends:
             file: docker-compose-base.yml
@@ -133,7 +14,7 @@ services:
         environment:
             - ORDERER_HOST=orderer0.example.com
             - CONFIGTX_ORDERER_ORDERERTYPE=kafka
-            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka0:9092,kafka1:9092,kafka2:9092,kafka3:9092]
+            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka1:9092,kafka2:9092,kafka3:9092]
             - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
             - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
             - ORDERER_KAFKA_VERBOSE=true
@@ -144,11 +25,6 @@ services:
             - ../crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/msp:/var/hyperledger/msp
             - ../crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls:/var/hyperledger/tls
             - ../config/:/var/hyperledger/configs
-        depends_on:
-            - kafka0
-            - kafka1
-            - kafka2
-            - kafka3
         networks:
           behave:
              aliases:
@@ -162,9 +38,9 @@ services:
             service: orderer
         container_name: orderer1.example.com
         environment:
-            - ORDERER_HOST=orderer1.example.com
+            - ORDERER_HOST=orderer1.example.comkafka1
             - CONFIGTX_ORDERER_ORDERERTYPE=kafka
-            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka0:9092,kafka1:9092,kafka2:9092,kafka3:9092]
+            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka1:9092,kafka2:9092,kafka3:9092]
             - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
             - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
             - ORDERER_KAFKA_RETRY_LONGINTERVAL=30s
@@ -177,11 +53,6 @@ services:
             - ../crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp:/var/hyperledger/msp
             - ../crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls:/var/hyperledger/tls
             - ../config/:/var/hyperledger/configs
-        depends_on:
-            - kafka0
-            - kafka1
-            - kafka2
-            - kafka3
         networks:
           behave:
              aliases:
@@ -197,7 +68,7 @@ services:
         environment:
             - ORDERER_HOST=orderer2.example.com
             - CONFIGTX_ORDERER_ORDERERTYPE=kafka
-            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka0:9092,kafka1:9092,kafka2:9092,kafka3:9092]
+            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka1:9092,kafka2:9092,kafka3:9092]
             - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
             - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
             - ORDERER_KAFKA_VERBOSE=true
@@ -208,11 +79,6 @@ services:
             - ../crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/msp
             - ../crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls:/var/hyperledger/tls
             - ../config/:/var/hyperledger/configs
-        depends_on:
-            - kafka0
-            - kafka1
-            - kafka2
-            - kafka3
         networks:
           behave:
              aliases:
