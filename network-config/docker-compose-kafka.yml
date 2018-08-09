@@ -14,7 +14,7 @@ services:
         environment:
             - ORDERER_HOST=orderer0.example.com
             - CONFIGTX_ORDERER_ORDERERTYPE=kafka
-            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka1:9092,kafka2:9092,kafka3:9092]
+            - CONFIGTX_ORDERER_KAFKA_BROKERS=[35.231.18.99:9092,35.190.146.148:9092,35.231.124.102:9092]
             - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
             - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
             - ORDERER_KAFKA_VERBOSE=true
@@ -38,9 +38,9 @@ services:
             service: orderer
         container_name: orderer1.example.com
         environment:
-            - ORDERER_HOST=orderer1.example.comkafka1
+            - ORDERER_HOST=orderer1.example.com
             - CONFIGTX_ORDERER_ORDERERTYPE=kafka
-            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka1:9092,kafka2:9092,kafka3:9092]
+            - CONFIGTX_ORDERER_KAFKA_BROKERS=[35.231.18.99:9092,35.190.146.148:9092,35.231.124.102:9092]
             - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
             - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
             - ORDERER_KAFKA_RETRY_LONGINTERVAL=30s
@@ -68,7 +68,7 @@ services:
         environment:
             - ORDERER_HOST=orderer2.example.com
             - CONFIGTX_ORDERER_ORDERERTYPE=kafka
-            - CONFIGTX_ORDERER_KAFKA_BROKERS=[kafka1:9092,kafka2:9092,kafka3:9092]
+            - CONFIGTX_ORDERER_KAFKA_BROKERS=[35.231.18.99:9092,35.190.146.148:9092,35.231.124.102:9092]
             - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
             - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
             - ORDERER_KAFKA_VERBOSE=true
